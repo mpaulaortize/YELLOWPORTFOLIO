@@ -26,19 +26,16 @@ function setupProjectScroller() {
   const txtDesc = document.querySelector(".proj-desc");
   const txtTools = document.querySelector(".proj-tools");
 
-  // Scroll-triggered animations for each project section
   document.querySelectorAll(".section-trigger").forEach((section) => {
     const { image, type, title, desc, tools } = section.dataset;
 
     const animate = () => {
-      // Update content
       imgEl.src = image;
       txtType.textContent = type;
       txtTitle.textContent = title;
       txtDesc.textContent = desc;
       txtTools.textContent = tools;
 
-      // Image animation
       gsap.fromTo(
         imgEl,
         { clipPath: "circle(0% at 50% 50%)", scale: 1.2, opacity: 0 },
@@ -51,7 +48,6 @@ function setupProjectScroller() {
         }
       );
 
-      // Text animations
       [txtType, txtTitle].forEach((el, i) =>
         gsap.fromTo(
           el,
@@ -88,40 +84,10 @@ function setupProjectScroller() {
     });
   });
 
-  // Hero leave: show first project when scrolling out of hero
   ScrollTrigger.create({
     trigger: "#hero",
     start: "bottom bottom",
-    onLeave: () => {
-      // Reveal project display
-      gsap.to(".project-display", { autoAlpha: 1, duration: 0.3 });
-
-      // Load first project data & animate
-      const first = document.querySelector(".section-trigger");
-      if (first) {
-        const { image, type, title, desc, tools } = first.dataset;
-        imgEl.src = image;
-        txtType.textContent = type;
-        txtTitle.textContent = title;
-        txtDesc.textContent = desc;
-        txtTools.textContent = tools;
-
-        // Entry animation for first slide
-        gsap.fromTo(
-          imgEl,
-          { clipPath: "circle(0% at 50% 50%)", scale: 1.2, opacity: 0 },
-          {
-            clipPath: "circle(75% at 50% 50%)",
-            scale: 1,
-            opacity: 1,
-            duration: 2.5,
-            ease: "elastic.out(1,0.5)",
-          }
-        );
-      }
-    },
     onLeaveBack: () => {
-      // Hide project display when scrolling back into hero
       gsap.to(imgEl, {
         clipPath: "circle(0% at 50% 50%)",
         scale: 1.2,
@@ -131,7 +97,6 @@ function setupProjectScroller() {
       [".proj-type", ".proj-title", ".proj-desc", ".proj-tools"].forEach(
         (sel) => gsap.to(sel, { opacity: 0, duration: 0.3 })
       );
-      gsap.to(".project-display", { autoAlpha: 0, duration: 0.3 });
     },
   });
 }
@@ -139,7 +104,6 @@ function setupProjectScroller() {
 function setupAboutTrigger() {
   let loaded = false;
   const disp = document.querySelector(".project-display");
-
   ScrollTrigger.create({
     trigger: "#about",
     start: "top center",
